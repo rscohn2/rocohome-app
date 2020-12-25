@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2020 Robert Cohn
+#
+# SPDX-License-Identifier: MIT
+
+on: [push, pull_request]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+    - uses: actions/setup-node@v2
+    - name: Install prerequisites
+      run: |
+        pip install --quiet -r requirements.txt
+        cd frontend && npm install
+    - name: Checks
+      run: |
+        pre-commit run --all
